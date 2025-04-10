@@ -9,6 +9,10 @@ class CreateBusinessModel(BaseModel):
     name: str
     description: str
 
+class UpdateBusinessModel(BaseModel):
+    name: str | None = None
+    description: str | None = None
+
 
 class Business(Base, TimestampMixin):
     __tablename__ = "business"
