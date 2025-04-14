@@ -18,6 +18,7 @@ def get_business(id: int, session: SessionDep):
         raise HTTPException(status_code=404, detail="Business not found")
     return business
 
+
 @router.post("/")
 def create_business(create_business: CreateBusinessModel, session: SessionDep):
     business = Business(**create_business.model_dump())
@@ -35,7 +36,7 @@ def update_business(id: int, business: UpdateBusinessModel, session: SessionDep)
         raise HTTPException(status_code=404, detail="Business not found")
 
     update_data = business.model_dump(exclude_unset=True)
-    print('update_data', update_data)
+    print("update_data", update_data)
 
     # Update the model attributes
     for key, value in update_data.items():

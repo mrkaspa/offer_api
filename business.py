@@ -1,4 +1,3 @@
-from datetime import datetime
 from pydantic import BaseModel
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -8,6 +7,7 @@ from persistance import Base, TimestampMixin
 class CreateBusinessModel(BaseModel):
     name: str
     description: str
+
 
 class UpdateBusinessModel(BaseModel):
     name: str | None = None

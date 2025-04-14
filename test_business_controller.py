@@ -25,14 +25,13 @@ def client(test_engine):
 
     app.dependency_overrides.clear()
 
+
 def test_get_business(client, test_session):
     business = BusinessFactory()
     test_session.add(business)
     test_session.commit()
 
-    response = client.get(
-        f"/businesses/{business.id}"
-    )
+    response = client.get(f"/businesses/{business.id}")
 
     assert response.status_code == 200
     data = response.json()
@@ -41,7 +40,7 @@ def test_get_business(client, test_session):
     assert data["description"] == business.description
 
 
-def test_get_business(client, test_session):
+def test_get_businesses(client, test_session):
     businesses = BusinessFactory.create_batch(3)
     test_session.add_all(businesses)
     test_session.commit()
@@ -59,12 +58,13 @@ def test_create_business(client):
         json={
             "name": "Test Business",
             "description": "Test Description",
-        }
+        },
     )
 
     assert response.status_code == 200
     assert response.json()["name"] == "Test Business"
     assert response.json()["description"] == "Test Description"
+
 
 def test_update_business(client, test_session):
     business = BusinessFactory()
@@ -75,11 +75,12 @@ def test_update_business(client, test_session):
         f"/businesses/{business.id}",
         json={
             "name": "New Name",
-        }
+        },
     )
     print(response.json())
     assert response.status_code == 200
     assert response.json()["name"] == "New Name"
+
 
 def test_delete_business(client, test_session):
     business = BusinessFactory()
