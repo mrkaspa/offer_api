@@ -21,7 +21,9 @@ def get_promotions(session: SessionDep):
 
 @router.put("/{slug}")
 def update_promotion(slug: str, promotion: UpdatePromotionModel, session: SessionDep):
-    promotion_to_update = session.query(Promotion).filter(Promotion.slug == slug).first()
+    promotion_to_update = (
+        session.query(Promotion).filter(Promotion.slug == slug).first()
+    )
     if not promotion_to_update:
         raise HTTPException(status_code=404, detail="Promotion not found")
 

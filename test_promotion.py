@@ -51,7 +51,7 @@ def test_create_promotion(test_session):
         promotion_type=PromotionType.DISCOUNT,
         start_date=date(2024, 1, 1),
         end_date=date(2024, 12, 31),
-        is_active=True
+        is_active=True,
     )
 
     # Add to session and commit
@@ -93,7 +93,10 @@ def test_promotion_crud_operations(test_session):
     promotion_id = promotion.id
     test_session.delete(promotion)
     test_session.commit()
-    assert test_session.query(Promotion).filter(Promotion.id == promotion_id).first() is None
+    assert (
+        test_session.query(Promotion).filter(Promotion.id == promotion_id).first()
+        is None
+    )
 
 
 def test_promotion_unique_slug(test_session, test_promotion_data):

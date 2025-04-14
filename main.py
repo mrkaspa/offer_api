@@ -4,6 +4,7 @@ from persistance import (
     create_db_and_tables,
 )
 from promotion_controller import router as promotion_router
+from business_controller import router as business_router
 from dependencies import engine
 
 
@@ -20,3 +21,4 @@ app = FastAPI(lifespan=lifespan)
 
 
 app.include_router(promotion_router)
+app.include_router(business_router)

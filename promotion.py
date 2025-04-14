@@ -35,6 +35,7 @@ class CreatePromotionModel(BaseModel):
     end_date: date
     is_active: bool = True
 
+
 class UpdatePromotionModel(BaseModel):
     """Model for updating a promotion."""
 
@@ -44,6 +45,7 @@ class UpdatePromotionModel(BaseModel):
     start_date: date | None = None
     end_date: date | None = None
     is_active: bool | None = None
+
 
 class Promotion(Base, TimestampMixin):
     __tablename__ = "promotion"

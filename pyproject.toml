@@ -10,11 +10,37 @@ package-mode = false
 python = "^3.10"
 sqlalchemy = "^2.0.40"
 fastapi = {extras = ["standard"], version = "^0.115.12"}
+alembic = "^1.15.2"
 
 
 [tool.poetry.group.dev.dependencies]
 factory-boy = "^3.3.3"
+black = "^25.1.0"
+pytest = "^8.3.5"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.pylint.messages_control]
+disable = [
+    "C0111",  # missing-docstring
+    "C0103",  # invalid-name
+    "W0621",  # redefined-outer-name
+    "R0903",  # too-few-public-methods
+    "R0913",  # too-many-arguments
+    "W0611",  # unused-import
+    "C0303",  # trailing-whitespace
+    "C0301",  # line-too-long
+    "C0114",  # missing-module-docstring
+    "C0115",  # missing-class-docstring
+    "C0116",  # missing-function-docstring
+]
+
+[tool.pylint.format]
+max-line-length = 120
+
+[tool.pylint.design]
+max-args = 10
+max-attributes = 15
+max-public-methods = 20
