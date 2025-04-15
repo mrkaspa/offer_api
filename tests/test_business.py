@@ -1,5 +1,10 @@
 import pytest
-from business import Business, CreateBusinessModel, Location, CreateLocationModel
+from app.domain.models import (
+    Business,
+    CreateBusinessModel,
+    Location,
+    CreateLocationModel,
+)
 
 
 @pytest.fixture

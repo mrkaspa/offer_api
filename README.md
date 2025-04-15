@@ -8,6 +8,12 @@ Setup the project using Poetry for the dependencies management, install the depe
 poetry install
 ```
 
+Start the shell with the environment
+
+```
+poetry shell
+```
+
 ## Migrations
 
 Run all the migraitons with alembic
@@ -21,7 +27,7 @@ poetry run alembic upgrade head
 To ensure everything is ok run:
 
 ```
-pytest
+poetry run pytest tests
 ```
 
 # Other

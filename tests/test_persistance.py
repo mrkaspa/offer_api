@@ -1,7 +1,7 @@
 import pytest
 from sqlalchemy.orm import Session
 from sqlalchemy import inspect
-from persistance import get_session
+from app.persistance import get_session
 
 
 def test_database_connection(test_engine):

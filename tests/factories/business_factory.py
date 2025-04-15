@@ -1,5 +1,5 @@
 import factory
-from business import Business
+from app.domain.models import Business
 
 
 class BusinessFactory(factory.Factory):

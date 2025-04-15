@@ -2,9 +2,9 @@ import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from persistance import Base
-from main import app
-from dependencies import engine
+from app.persistance import Base
+from app.server import app
+from app.dependencies import engine
 from tests.factories.business_factory import BusinessFactory
 
 
@@ -35,6 +35,7 @@ def test_get_business(client, test_session):
 
     assert response.status_code == 200
     data = response.json()
+    print(data)
     assert data["id"] == business.id
     assert data["name"] == business.name
     assert data["description"] == business.description

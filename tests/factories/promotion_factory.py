@@ -1,6 +1,6 @@
-import factory
 from datetime import date, timedelta
-from promotion import Promotion, PromotionType
+import factory
+from app.domain.models import Promotion, PromotionType
 
 
 class PromotionFactory(factory.Factory):

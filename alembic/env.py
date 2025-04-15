@@ -15,9 +15,8 @@ if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
 # add your model's MetaData object here
-from persistance import Base
-from promotion import Promotion, PromotionLocation
-from business import Business, Location
+from app.persistance import Base
+from app.domain.models import Promotion, PromotionLocation, Business, Location
 
 # for 'autogenerate' support
 # from myapp import mymodel

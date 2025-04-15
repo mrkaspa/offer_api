@@ -2,10 +2,10 @@ import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from persistance import Base
-from main import app
-from dependencies import engine
-from promotion import Promotion
+from app.persistance import Base
+from app.server import app
+from app.dependencies import engine
+from app.domain.models import Promotion
 from tests.factories.promotion_factory import PromotionFactory
 
 
