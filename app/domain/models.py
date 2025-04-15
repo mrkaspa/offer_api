@@ -2,10 +2,64 @@ import re
 from datetime import date
 from enum import Enum
 from pydantic import BaseModel
+from app.persistance import Base, TimestampMixin
 from sqlalchemy import event, text, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from persistance import Base, TimestampMixin
-from business import Location
+from app.persistance import Base, TimestampMixin
+
+
+class CreateBusinessModel(BaseModel):
+    name: str
+    description: str
+
+
+class UpdateBusinessModel(BaseModel):
+    name: str | None = None
+    description: str | None = None
+
+
+class Business(Base, TimestampMixin):
+    __tablename__ = "business"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    name: Mapped[str] = mapped_column()
+    description: Mapped[str] = mapped_column()
+    locations: Mapped[list["Location"]] = relationship(
+        "Location", back_populates="business"
+    )
+
+
+class CreateLocationModel(BaseModel):
+    name: str
+    description: str
+    address: str
+    city: str
+    state: str
+    zip_code: str
+    country: str
+    latitude: float
+    longitude: float
+    business_id: int
+
+
+class Location(Base, TimestampMixin):
+    __tablename__ = "location"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    name: Mapped[str] = mapped_column()
+    description: Mapped[str] = mapped_column()
+    address: Mapped[str] = mapped_column()
+    city: Mapped[str] = mapped_column()
+    state: Mapped[str] = mapped_column()
+    zip_code: Mapped[str] = mapped_column()
+    country: Mapped[str] = mapped_column()
+    latitude: Mapped[float] = mapped_column()
+    longitude: Mapped[float] = mapped_column()
+    business_id: Mapped[int] = mapped_column(ForeignKey("business.id"))
+    business: Mapped["Business"] = relationship("Business", back_populates="locations")
+    promotion_locations: Mapped[list["PromotionLocation"]] = relationship(
+        "PromotionLocation", back_populates="location"
+    )
 
 
 class PromotionType(str, Enum):
@@ -48,21 +102,6 @@ class UpdatePromotionModel(BaseModel):
     is_active: bool | None = None
 
 
-class PromotionLocation(Base, TimestampMixin):
-    __tablename__ = "promotion_location"
-
-    promotion_id: Mapped[int] = mapped_column(
-        ForeignKey("promotion.id"), primary_key=True
-    )
-    location_id: Mapped[int] = mapped_column(
-        ForeignKey("location.id"), primary_key=True
-    )
-    promotion: Mapped["Promotion"] = relationship(
-        "Promotion", back_populates="locations"
-    )
-    location: Mapped["Location"] = relationship("Location", back_populates="promotions")
-
-
 class Promotion(Base, TimestampMixin):
     __tablename__ = "promotion"
 
@@ -98,3 +137,20 @@ def update_slug_after_update(mapper, connection, target):
 
     sql = text(f"UPDATE {target.__tablename__} SET slug = :slug WHERE id = :id")
     connection.execute(sql, {"slug": target.slug, "id": target.id})
+
+
+class PromotionLocation(Base, TimestampMixin):
+    __tablename__ = "promotion_location"
+
+    promotion_id: Mapped[int] = mapped_column(
+        ForeignKey("promotion.id"), primary_key=True
+    )
+    location_id: Mapped[int] = mapped_column(
+        ForeignKey("location.id"), primary_key=True
+    )
+    promotion: Mapped["Promotion"] = relationship(
+        "Promotion", back_populates="promotion_locations"
+    )
+    location: Mapped["Location"] = relationship(
+        "Location", back_populates="promotion_locations"
+    )

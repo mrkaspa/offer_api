@@ -1,6 +1,10 @@
 from fastapi import APIRouter, HTTPException
-from promotion import CreatePromotionModel, UpdatePromotionModel, Promotion
-from dependencies import SessionDep
+from app.domain.models import (
+    CreatePromotionModel,
+    UpdatePromotionModel,
+    Promotion,
+)
+from app.dependencies import SessionDep
 
 router = APIRouter(prefix="/promotions", tags=["promotions"])
 

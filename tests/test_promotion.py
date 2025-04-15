@@ -1,7 +1,12 @@
+from datetime import date
 import pytest
-from datetime import datetime, date
-from promotion import Promotion, CreatePromotionModel, PromotionType, generate_slug
-from persistance import Base
+from app.domain.models import (
+    Promotion,
+    CreatePromotionModel,
+    PromotionType,
+    generate_slug,
+)
+from app.persistance import Base
 from tests.factories.promotion_factory import PromotionFactory
 
 
