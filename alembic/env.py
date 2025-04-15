@@ -16,7 +16,7 @@ if config.config_file_name is not None:
 
 # add your model's MetaData object here
 from persistance import Base
-from promotion import Promotion
+from promotion import Promotion, PromotionLocation
 from business import Business, Location
 
 # for 'autogenerate' support

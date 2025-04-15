@@ -53,3 +53,6 @@ class Location(Base, TimestampMixin):
     longitude: Mapped[float] = mapped_column()
     business_id: Mapped[int] = mapped_column(ForeignKey("business.id"))
     business: Mapped["Business"] = relationship("Business", back_populates="locations")
+    promotion_locations: Mapped[list["PromotionLocation"]] = relationship(
+        "PromotionLocation", back_populates="location"
+    )
