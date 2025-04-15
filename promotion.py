@@ -1,10 +1,11 @@
-from datetime import datetime, date
+import re
+from datetime import date
 from enum import Enum
 from pydantic import BaseModel
+from sqlalchemy import event, text, ForeignKey
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from persistance import Base, TimestampMixin
-from sqlalchemy import event, text
-import re
-from sqlalchemy.orm import Mapped, mapped_column
+from business import Location
 
 
 class PromotionType(str, Enum):
@@ -47,6 +48,21 @@ class UpdatePromotionModel(BaseModel):
     is_active: bool | None = None
 
 
+class PromotionLocation(Base, TimestampMixin):
+    __tablename__ = "promotion_location"
+
+    promotion_id: Mapped[int] = mapped_column(
+        ForeignKey("promotion.id"), primary_key=True
+    )
+    location_id: Mapped[int] = mapped_column(
+        ForeignKey("location.id"), primary_key=True
+    )
+    promotion: Mapped["Promotion"] = relationship(
+        "Promotion", back_populates="locations"
+    )
+    location: Mapped["Location"] = relationship("Location", back_populates="promotions")
+
+
 class Promotion(Base, TimestampMixin):
     __tablename__ = "promotion"
 
@@ -58,6 +74,9 @@ class Promotion(Base, TimestampMixin):
     end_date: Mapped[date] = mapped_column()
     is_active: Mapped[bool] = mapped_column()
     slug: Mapped[str | None] = mapped_column(unique=True, index=True, nullable=True)
+    promotion_locations: Mapped[list["PromotionLocation"]] = relationship(
+        "PromotionLocation", back_populates="promotion"
+    )
 
 
 @event.listens_for(Promotion, "after_insert")
